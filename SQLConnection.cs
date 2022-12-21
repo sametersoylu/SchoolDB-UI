@@ -12,40 +12,7 @@ namespace WinFormsApp1
 {
     internal class SQLCon
     {
-        internal class ConnectionSettings
-        {
-            private string _server = "", _db = "", _user = "", _pwd = "";
-            private string conString = "";
-            public string server { get { return _server; } set { _server = value; } }
-            public string db { get { return _db; } set { _db = value; } }
-            public string user { get { return _user; } set { _user = value; } }
-            public string pwd { get { return _pwd; } set { _pwd = value; } }
-            private string set_Settings(string Server, string DB, string User, string Password)
-            {
-                _server = Server;
-                _db = DB;
-                _user = User;
-                _pwd = Password;
-                conString = $"Server={server}; Database={db}; uid={user}; Password={pwd}";
-                return $"Server={server}; Database={db}; uid={user}; Password={pwd}";
-            }
-            public ConnectionSettings(string Password)
-            {
-                set_Settings("localhost", "SchoolDB", "root", Password);
-            }
-
-            public ConnectionSettings(string SERVER, string DB, string USER, string PASSWORD)
-            {
-                set_Settings(SERVER, DB, USER, PASSWORD);
-            }
-            public string get_Settings()
-            {
-                return conString;
-            }
-           
-        }
-        
-        ConnectionSettings conSettings = new ConnectionSettings("159951");
+        ConnectionSettings conSettings;
         /* MySQL CONNECTION VARIABLES */
         MySqlConnection con;
         MySqlDataAdapter connector;
@@ -56,19 +23,27 @@ namespace WinFormsApp1
         /* OVERLOADED FUNCTION AS PARAMETERED CONSTRUCTOR */
         public SQLCon(string Server, string Database, string User, string Password)
         {
+            conSettings = new ConnectionSettings(Server, Database, User, Password);
             con = new MySqlConnection(conSettings.get_Settings());
             connector = new MySqlDataAdapter();
             cmd = new MySqlCommand();
         }
 
         /* OVERLOAD FUNCTION AS BASIC CONSTRUCTOR */
-        public SQLCon()
+        public SQLCon(string Password)
         {
-            
+            conSettings = new ConnectionSettings(Password);
             con = new MySqlConnection(conSettings.get_Settings());
             connector = new MySqlDataAdapter();
             cmd = new MySqlCommand();
         }
+
+        public SQLCon(ConnectionSettings ConSet) {  
+            conSettings = ConSet;
+            con = new MySqlConnection(conSettings.get_Settings());
+            connector = new MySqlDataAdapter();
+            cmd = new MySqlCommand();
+        }  
 
         //THIS FUNCTIONS SOLE PURPOSE IS RUNNING SIMPLE SELECT QUERIES AND RETURNING DATA TABLE FROM THEM
         public DataTable SelectQuery(string Columns, string Table, string Where = "")

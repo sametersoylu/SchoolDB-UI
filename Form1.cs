@@ -6,9 +6,12 @@ namespace WinFormsApp1
 {
     public partial class Form1 : Form
     {
-        SQLCon MyCon = new SQLCon();
+        ConnectionSettings MySettings;
+        SQLCon MyCon;
         public Form1()
         {
+            MySettings = new ConnectionSettings("");
+            MyCon = new SQLCon(MySettings);
             InitializeComponent();
         }
 
