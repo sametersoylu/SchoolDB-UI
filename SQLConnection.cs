@@ -45,6 +45,14 @@ namespace WinFormsApp1
             cmd = new MySqlCommand();
         }  
 
+        public SQLCon(string server ,string user, string password)
+        {
+            conSettings = new ConnectionSettings(server, "", user, password);
+            con = new MySqlConnection(conSettings.get_Settings());
+            connector = new MySqlDataAdapter();
+            cmd = new MySqlCommand();
+        }
+
         //THIS FUNCTIONS SOLE PURPOSE IS RUNNING SIMPLE SELECT QUERIES AND RETURNING DATA TABLE FROM THEM
         public DataTable SelectQuery(string Columns, string Table, string Where = "")
         {
@@ -91,6 +99,48 @@ namespace WinFormsApp1
                 ErrorStr = ex.Message;
             }
             con.Close();
+            return dataTable;
+        }
+
+        public DataTable GetTables(string DB)
+        {   
+            DataTable dataTable = new DataTable();
+            cmd.CommandText = $"USE {DB}; SHOW TABLES;"; 
+            cmd.Connection = con;
+            connector.SelectCommand = cmd;
+            try
+            {
+                con.Open();
+                connector.Fill(dataTable);
+                ErrorStr = "";
+            }
+            catch(Exception ex)
+            {
+                ErrorStr = ex.Message; 
+            }
+            con.Close();
+            return dataTable; 
+        }
+
+        
+
+        public DataTable GetSchemas()
+        {   
+            DataTable dataTable = new DataTable();
+            cmd.CommandText = "SHOW SCHEMAS;"; 
+            cmd.Connection = con;  
+            connector.SelectCommand = cmd;
+            try
+            {
+                con.Open();
+                connector.Fill(dataTable);
+                ErrorStr = "";
+            }
+            catch (Exception ex) 
+            {
+                ErrorStr = ex.Message;
+            }
+            con.Close();    
             return dataTable;
         }
 

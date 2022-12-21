@@ -10,6 +10,7 @@ namespace WinFormsApp1
     {
         private string _server = "", _db = "", _user = "", _pwd = "";
         private string conString = "";
+        private string conStringNoDB = ""; 
         public string server { get { return _server; } set { _server = value; } }
         public string db { get { return _db; } set { _db = value; } }
         public string user { get { return _user; } set { _user = value; } }
@@ -21,6 +22,7 @@ namespace WinFormsApp1
             _user = User;
             _pwd = Password;
             conString = $"Server={server}; Database={db}; uid={user}; Password={pwd}";
+            conStringNoDB = $"Server={server}; uid={user}; Password={pwd};"; 
             return $"Server={server}; Database={db}; uid={user}; Password={pwd}";
         }
         public ConnectionSettings(string Password)
@@ -33,6 +35,10 @@ namespace WinFormsApp1
         }
         public string get_Settings()
         {
+            if(_db == "")
+            {
+                return conStringNoDB; 
+            }
             return conString;
         }
     }
