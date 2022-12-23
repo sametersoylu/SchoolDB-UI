@@ -21,15 +21,30 @@ namespace WinFormsApp1
         SQLCon newCon; 
         public Form2()
         {
-            
+            LogInForm = this;
+            MenuForm = new Form1("",Tables,"","", LogInForm);
             InitializeComponent();
         }
 
-        private void Form2_Load(object sender, EventArgs e)
+        public void cleanForm()
         {
-             
-            conState = false; 
+            Run();
+            comboBox1.DataSource = new List<string>();
+            nTextBox1.TextBoxText = string.Empty;
+            nTextBox2.TextBoxText = string.Empty;
+            nTextBox1.Enabled = true; nTextBox2.Enabled = true;
+            button1.Text = "Bağlan";
+        }
+
+        private void Run()
+        {
+            conState = false;
             comboBox1.Enabled = false;
+        }
+
+        private void Form2_Load(object sender, EventArgs e)
+        { 
+            Run();
         }
 
         private void button2_Click(object sender, EventArgs e)
@@ -69,7 +84,8 @@ namespace WinFormsApp1
                     return; 
                 }
                 conState = false; 
-                MessageBox.Show(newCon.getError());
+                MessageBox.Show(newCon.getError(), "Error.", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return; 
             }
             LogInForm = this;
             MenuForm = new Form1(database, Tables, newSetting.user, newSetting.pwd, LogInForm);

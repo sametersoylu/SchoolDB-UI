@@ -154,6 +154,8 @@ namespace WinFormsApp1
                     return $"{lastusedTable} doesn't exist.";
                 case -2:
                     return "Connection is already open.";
+                case -3:
+                    return $"Username and password for {conSettings.server} is wrong. Please check your credentials.";
                 default:
                     return $"Undefined error! Error string is \"{ErrorStr}\" ";
             }
@@ -166,6 +168,10 @@ namespace WinFormsApp1
             if($"The connection is already open." == ErrorStr)
             {
                 return -2; 
+            }
+            if($"Authentication to host '{conSettings.server}' for user '{conSettings.user}' using method 'caching_sha2_password' failed with message: Access denied for user '{conSettings.user}'@'{conSettings.server}' (using password: YES)" == ErrorStr || ErrorStr == $"Authentication to host '{conSettings.server}' for user '{conSettings.user}' using method 'mysql_native_password' failed with message: Access denied for user 'roto'@'localhost' (using password: YES)")
+            {
+                return -3;
             }
             if(ErrorStr != "")
             {
