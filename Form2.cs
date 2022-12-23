@@ -13,12 +13,12 @@ namespace WinFormsApp1
     public partial class Form2 : Form
     {
         private bool conState = false;
-        ConnectionSettings newSetting;
+        ConnectionSettings newSetting = new ConnectionSettings("","","","");
         DataTable Tables = new DataTable();
         string database = string.Empty;
         Form1 MenuForm;
         Form2 LogInForm; 
-        SQLCon newCon; 
+        SQLCon newCon = new SQLCon("","","",""); 
         public Form2()
         {
             LogInForm = this;
@@ -68,6 +68,14 @@ namespace WinFormsApp1
 
         private void button1_Click(object sender, EventArgs e)
         {
+            if(nTextBox1.TextBoxText == string.Empty && nTextBox2.TextBoxText == string.Empty) 
+            { MessageBox.Show("Username and password can't be empty!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error); return; }
+           
+            if(nTextBox1.TextBoxText == string.Empty) 
+            { MessageBox.Show("Username can't be empty!", "Error.", MessageBoxButtons.OK, MessageBoxIcon.Error); return; }
+            if(nTextBox2.TextBoxText == string.Empty) 
+            { MessageBox.Show("Password can't be empty!", "Error.", MessageBoxButtons.OK, MessageBoxIcon.Error); return; }
+
             if (!conState)
             {
                 newSetting = new ConnectionSettings("localhost", "", nTextBox1.TextBoxText, nTextBox2.TextBoxText);

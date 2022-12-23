@@ -17,13 +17,13 @@ namespace WinFormsApp1
         string columnName = "";
         string selectedTable = "";
         string keyWord = "";
-        string columnAs;
+        string columnAs = "";
+
         private bool LogOut = false; 
         private bool MenuState = false; 
         private bool DataGridState = false;
         private bool DataGridDock = false;
         private bool searchPanelState = false; 
-        private bool searchPanelDock = false;
 
         public Form1(string selectedSchema, DataTable Tables, string DB_USER,string DB_PASS, Form2 logInForm) 
         {
@@ -45,7 +45,7 @@ namespace WinFormsApp1
             {
                 comboBox1.SelectedIndex = 0;
             } 
-            catch (Exception ex) { }
+            catch (Exception ex) { ex.ToString(); }
             
         }
 
@@ -135,11 +135,6 @@ namespace WinFormsApp1
             createDataGridView();
             newData = MyCon.SelectQuery(column, table, where);
             if(MyCon.getErrorCode() != 0) { MessageBox.Show(MyCon.getError()); }
-            MessageBox.Show(searchPanelState.ToString());
-            if(newData.Rows.Count == 0 && searchPanelState) 
-            {
-                MessageBox.Show($"No entry found for keyword: {keyWord} in .");
-            }
             newGrid.DataSource = newData;
             this.Size = new Size(panel2.Width + 135, panel2.Height + 60);
         }
@@ -229,7 +224,7 @@ namespace WinFormsApp1
             if (MyCon.getErrorCode() != 0) { MessageBox.Show(MyCon.getError()); }
             if (newData.Rows.Count == 0)
             {
-                MessageBox.Show($"No entry found for keyword: {keyWord} in {selectedTable}.");
+                MessageBox.Show($"No entry found for keyword: '{keyWord}' in '{selectedTable}'.");
                 return;
             }
 
