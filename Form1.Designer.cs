@@ -38,7 +38,14 @@
             this.button3 = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
             this.panel2 = new System.Windows.Forms.Panel();
+            this.panel3 = new System.Windows.Forms.Panel();
+            this.label1 = new System.Windows.Forms.Label();
+            this.comboBox1 = new System.Windows.Forms.ComboBox();
+            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.button10 = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
+            this.panel2.SuspendLayout();
+            this.panel3.SuspendLayout();
             this.SuspendLayout();
             // 
             // button1
@@ -66,7 +73,7 @@
             this.panel1.Controls.Add(this.button2);
             this.panel1.Location = new System.Drawing.Point(7, 36);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(85, 225);
+            this.panel1.Size = new System.Drawing.Size(85, 226);
             this.panel1.TabIndex = 1;
             // 
             // button8
@@ -88,6 +95,7 @@
             this.button7.BackColor = System.Drawing.Color.SteelBlue;
             this.button7.FlatAppearance.BorderSize = 0;
             this.button7.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button7.Font = new System.Drawing.Font("Segoe UI", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.button7.ForeColor = System.Drawing.Color.White;
             this.button7.Location = new System.Drawing.Point(8, 163);
             this.button7.Name = "button7";
@@ -169,10 +177,63 @@
             // 
             // panel2
             // 
+            this.panel2.Controls.Add(this.panel3);
             this.panel2.Location = new System.Drawing.Point(98, 8);
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(302, 254);
             this.panel2.TabIndex = 2;
+            // 
+            // panel3
+            // 
+            this.panel3.BackColor = System.Drawing.Color.Transparent;
+            this.panel3.Controls.Add(this.button10);
+            this.panel3.Controls.Add(this.label1);
+            this.panel3.Controls.Add(this.comboBox1);
+            this.panel3.Controls.Add(this.textBox1);
+            this.panel3.Location = new System.Drawing.Point(0, 0);
+            this.panel3.Name = "panel3";
+            this.panel3.Size = new System.Drawing.Size(302, 254);
+            this.panel3.TabIndex = 0;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(16, 0);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(0, 15);
+            this.label1.TabIndex = 2;
+            // 
+            // comboBox1
+            // 
+            this.comboBox1.FormattingEnabled = true;
+            this.comboBox1.Items.AddRange(new object[] {
+            "Table Names"});
+            this.comboBox1.Location = new System.Drawing.Point(193, 16);
+            this.comboBox1.Name = "comboBox1";
+            this.comboBox1.Size = new System.Drawing.Size(91, 23);
+            this.comboBox1.TabIndex = 1;
+            // 
+            // textBox1
+            // 
+            this.textBox1.Location = new System.Drawing.Point(16, 16);
+            this.textBox1.Name = "textBox1";
+            this.textBox1.PlaceholderText = "Search keyword";
+            this.textBox1.Size = new System.Drawing.Size(171, 23);
+            this.textBox1.TabIndex = 0;
+            // 
+            // button10
+            // 
+            this.button10.BackColor = System.Drawing.Color.SteelBlue;
+            this.button10.FlatAppearance.BorderSize = 0;
+            this.button10.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button10.ForeColor = System.Drawing.Color.White;
+            this.button10.Location = new System.Drawing.Point(193, 45);
+            this.button10.Name = "button10";
+            this.button10.Size = new System.Drawing.Size(91, 26);
+            this.button10.TabIndex = 1;
+            this.button10.Text = "Search";
+            this.button10.UseVisualStyleBackColor = false;
+            this.button10.Click += new System.EventHandler(this.button10_Click);
             // 
             // Form1
             // 
@@ -190,6 +251,9 @@
             this.Load += new System.EventHandler(this.Form1_Load);
             this.SizeChanged += new System.EventHandler(this.Form1_SizeChanged);
             this.panel1.ResumeLayout(false);
+            this.panel2.ResumeLayout(false);
+            this.panel3.ResumeLayout(false);
+            this.panel3.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -206,5 +270,10 @@
         private Button button3;
         private Button button2;
         private Panel panel2;
+        private Panel panel3;
+        private ComboBox comboBox1;
+        private TextBox textBox1;
+        private Label label1;
+        private Button button10;
     }
 }

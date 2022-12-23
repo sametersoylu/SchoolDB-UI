@@ -5,8 +5,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.VisualBasic;
+using Microsoft.VisualBasic.Devices;
 using MySql.Data;
 using MySql.Data.MySqlClient;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace WinFormsApp1
 {
@@ -19,7 +21,7 @@ namespace WinFormsApp1
         MySqlCommand cmd;
         /* MySQL CONNECTION VARIABLES */
         private string ErrorStr = "";
-        private string lastusedTable = "";
+        public string lastusedTable = "";
         /* OVERLOADED FUNCTION AS PARAMETERED CONSTRUCTOR */
         public SQLCon(string Server, string Database, string User, string Password)
         {
@@ -80,6 +82,33 @@ namespace WinFormsApp1
             }
             con.Close();
             return dataTable;
+        }
+
+        public DataTable SearchQuery(string Columns,string Table, string SearchText)
+        {
+            string Query = ""; 
+            DataTable dataTable= new DataTable();
+            /*if (Where == "")
+            {
+                Query = $"select {Columns} from {Table};";
+            }*/
+            //else { Query = $"select {Columns} from {Table} where {};"; }
+            cmd.CommandText = Query;
+            cmd.Connection = con;
+            connector.SelectCommand = cmd;
+            lastusedTable = Table;
+            try
+            {
+                con.Open();
+                connector.Fill(dataTable);
+                ErrorStr = "";
+            }
+            catch (Exception ex)
+            {
+                ErrorStr = ex.Message;
+            }
+            con.Close();
+            return dataTable; 
         }
 
         //THIS FUNCTIONS SOLE PURPOSE IS RUNNING QUERIES AND RETURNING DATA TABLE FROM THEM
@@ -169,7 +198,10 @@ namespace WinFormsApp1
             {
                 return -2; 
             }
-            if($"Authentication to host '{conSettings.server}' for user '{conSettings.user}' using method 'caching_sha2_password' failed with message: Access denied for user '{conSettings.user}'@'{conSettings.server}' (using password: YES)" == ErrorStr || ErrorStr == $"Authentication to host '{conSettings.server}' for user '{conSettings.user}' using method 'mysql_native_password' failed with message: Access denied for user 'roto'@'localhost' (using password: YES)")
+            if($"Authentication to host '{conSettings.server}' for user '{conSettings.user}' " +
+                $"using method 'caching_sha2_password' failed with message: Access denied for user '{conSettings.user}'@'{conSettings.server}' " +
+                $"(using password: YES)" == ErrorStr || ErrorStr == $"Authentication to host '{conSettings.server}' for user '{conSettings.user}' " +
+                $"using method 'mysql_native_password' failed with message: Access denied for user 'roto'@'localhost' (using password: YES)")
             {
                 return -3;
             }
