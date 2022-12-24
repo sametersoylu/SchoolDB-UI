@@ -200,19 +200,19 @@ namespace WinFormsApp1
             {
                 case 1:
                     columnName = "title";
-                    columnAs = " as CourseName";
+                    columnAs = "course_id as CourseCode, title as CourseName, dept_name as Department, credits as Credits";
                     selectedTable = "course";
                     break;
                 case 2: columnName = "dept_name";
-                    columnAs = " as Department";
+                    columnAs = "dept_name as Department, building as Building, budget as Budget";
                     selectedTable = "department";
                     break;
                 case 3: columnName = "i_name";
-                    columnAs = " as Instructor";
+                    columnAs = "instructor_id as InstructorID, i_name as Instructor, dept_name as Department, salary as Salary";
                     selectedTable = "instructor";
                     break;
                 case 4: columnName = "s_name";
-                    columnAs = " as StudentName";
+                    columnAs = "student_id as StudentID, s_name as StudentName, dept_name as Department, total_cred as TotalCredit";
                     selectedTable = "student";
                     break;
                 default:
@@ -220,7 +220,7 @@ namespace WinFormsApp1
             }
 
            
-            newData = MyCon.SelectQuery(columnName + columnAs, selectedTable, $"{columnName} like '%{keyWord}%'");
+            newData = MyCon.SelectQuery(columnAs, selectedTable, $"{columnName} like '%{keyWord}%'");
             if (MyCon.getErrorCode() != 0) { MessageBox.Show(MyCon.getError()); }
             if (newData.Rows.Count == 0)
             {
@@ -233,6 +233,7 @@ namespace WinFormsApp1
             this.Size = new Size(panel2.Width + 135, panel2.Height + 60);
             panel3.Visible = false;
             searchPanelState = false;
+            textBox1.Clear();
             this.Text = MyCon.lastusedTable; 
         }
     } 
