@@ -155,7 +155,7 @@ namespace WinFormsApp1
 
         //THIS WILL RETURN ERROR STRINGS. IF NOT A DEFINED ERROR, IT WILL RETURN THE
         //ORIGINAL STRING OF ERROR FROM MYSQL.  
-        public string getError() //EXAMPLE COMMENT
+        public string getError() 
         {
             
             switch(getErrorCode())

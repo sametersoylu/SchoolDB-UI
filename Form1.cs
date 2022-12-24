@@ -190,12 +190,10 @@ namespace WinFormsApp1
                 MessageBox.Show("You have to choose a table.", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return; 
             }
-
             columnName = "";
             columnAs = ""; 
             selectedTable = ""; 
             keyWord = textBox1.Text;
-
             switch (comboBox1.SelectedIndex) 
             {
                 case 1:
@@ -218,8 +216,6 @@ namespace WinFormsApp1
                 default:
                     break;
             }
-
-           
             newData = MyCon.SelectQuery(columnAs, selectedTable, $"{columnName} like '%{keyWord}%'");
             if (MyCon.getErrorCode() != 0) { MessageBox.Show(MyCon.getError()); }
             if (newData.Rows.Count == 0)
@@ -227,7 +223,6 @@ namespace WinFormsApp1
                 MessageBox.Show($"No entry found for keyword: '{keyWord}' in '{selectedTable}'.");
                 return;
             }
-
             createDataGridView();
             newGrid.DataSource = newData;
             this.Size = new Size(panel2.Width + 135, panel2.Height + 60);
