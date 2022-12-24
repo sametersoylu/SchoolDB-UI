@@ -84,7 +84,8 @@ namespace WinFormsApp1
             return dataTable;
         }
 
-        public DataTable SearchQuery(string Columns,string Table, string SearchText)
+        //IT'S A PROTOTYPE FUNCTION. IT'S NOT FINISHED YET. ONCE IT'S FINISHED, IT'LL BE USED FOR ADVANCED SEARCHING PURPOSES.
+        protected DataTable SearchQuery(string Columns,string Table, string SearchText)
         {
             string Query = ""; 
             DataTable dataTable= new DataTable();
@@ -129,30 +130,9 @@ namespace WinFormsApp1
             }
             con.Close();
             return dataTable;
-        }
+        }    
 
-        public DataTable GetTables(string DB)
-        {   
-            DataTable dataTable = new DataTable();
-            cmd.CommandText = $"USE {DB}; SHOW TABLES;"; 
-            cmd.Connection = con;
-            connector.SelectCommand = cmd;
-            try
-            {
-                con.Open();
-                connector.Fill(dataTable);
-                ErrorStr = "";
-            }
-            catch(Exception ex)
-            {
-                ErrorStr = ex.Message; 
-            }
-            con.Close();
-            return dataTable; 
-        }
-
-        
-
+        //THIS FUNCTION WILL RETURN THE SCHEMAS IN THE SERVER. 
         public DataTable GetSchemas()
         {   
             DataTable dataTable = new DataTable();
@@ -173,8 +153,11 @@ namespace WinFormsApp1
             return dataTable;
         }
 
-        public string getError()
+        //THIS WILL RETURN ERROR STRINGS. IF NOT A DEFINED ERROR, IT WILL RETURN THE
+        //ORIGINAL STRING OF ERROR FROM MYSQL.  
+        public string getError() //EXAMPLE COMMENT
         {
+            
             switch(getErrorCode())
             {
                 case 0:
@@ -189,6 +172,11 @@ namespace WinFormsApp1
                     return $"Undefined error! Error string is \"{ErrorStr}\" ";
             }
         }
+
+        //THIS STANDS FOR ERROR CHECKING. IF ErrorStr IS NOT EMPTY BUT STILL TEXT ISN'T DEFINED
+        //IT'LL RETURN 1 WHICH IS UNDEFINED ERROR IN THE CLASS. IT MIGHT BE DEFINED IN THE 
+        //MYSQL DATA NAMESPACE BUT IT'S NOT DEFINED IN HERE. SO YOU HAVE TO SEARCH FOR POSSIBLE
+        //SOLUTIONS
         public int getErrorCode()
         {
             if($"Table '{conSettings.db.ToLower()}.{lastusedTable}' doesn't exist" == ErrorStr) {

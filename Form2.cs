@@ -14,7 +14,6 @@ namespace WinFormsApp1
     {
         private bool conState = false;
         ConnectionSettings newSetting = new ConnectionSettings("","","","");
-        DataTable Tables = new DataTable();
         string database = string.Empty;
         Form1 MenuForm;
         Form2 LogInForm; 
@@ -22,7 +21,7 @@ namespace WinFormsApp1
         public Form2()
         {
             LogInForm = this;
-            MenuForm = new Form1("",Tables,"","", LogInForm);
+            MenuForm = new Form1("","","", LogInForm);
             InitializeComponent();
         }
 
@@ -62,20 +61,23 @@ namespace WinFormsApp1
                     MessageBox.Show(newCon.getError());
                     return; 
                 }
-                Tables = newCon.GetTables(database);
             }
+        }
+
+        private bool checkLoginBoxes()
+        {
+            if (nTextBox1.TextBoxText == string.Empty && nTextBox2.TextBoxText == string.Empty)
+            { MessageBox.Show("Username and password can't be empty!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error); return false; }
+            if (nTextBox1.TextBoxText == string.Empty)
+            { MessageBox.Show("Username can't be empty!", "Error.", MessageBoxButtons.OK, MessageBoxIcon.Error); return false; }
+            if (nTextBox2.TextBoxText == string.Empty)
+            { MessageBox.Show("Password can't be empty!", "Error.", MessageBoxButtons.OK, MessageBoxIcon.Error); return false; }
+            return true;
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
-            if(nTextBox1.TextBoxText == string.Empty && nTextBox2.TextBoxText == string.Empty) 
-            { MessageBox.Show("Username and password can't be empty!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error); return; }
-           
-            if(nTextBox1.TextBoxText == string.Empty) 
-            { MessageBox.Show("Username can't be empty!", "Error.", MessageBoxButtons.OK, MessageBoxIcon.Error); return; }
-            if(nTextBox2.TextBoxText == string.Empty) 
-            { MessageBox.Show("Password can't be empty!", "Error.", MessageBoxButtons.OK, MessageBoxIcon.Error); return; }
-
+            if(!checkLoginBoxes()) { return; }
             if (!conState)
             {
                 newSetting = new ConnectionSettings("localhost", "", nTextBox1.TextBoxText, nTextBox2.TextBoxText);
@@ -96,7 +98,7 @@ namespace WinFormsApp1
                 return; 
             }
             LogInForm = this;
-            MenuForm = new Form1(database, Tables, newSetting.user, newSetting.pwd, LogInForm);
+            MenuForm = new Form1(database, newSetting.user, newSetting.pwd, LogInForm);
             MenuForm.Show();
             this.Hide();
         }

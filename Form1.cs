@@ -9,7 +9,6 @@ namespace WinFormsApp1
     {
         ConnectionSettings MySettings;
         SQLCon MyCon;
-        DataTable Tables_of_DB = new DataTable();
         Form2 LogInForm;
         DataGridView newGrid = new DataGridView();  
         DataTable newData= new DataTable();
@@ -25,11 +24,11 @@ namespace WinFormsApp1
         private bool DataGridDock = false;
         private bool searchPanelState = false; 
 
-        public Form1(string selectedSchema, DataTable Tables, string DB_USER,string DB_PASS, Form2 logInForm) 
+        public Form1(string selectedSchema, string DB_USER,string DB_PASS, Form2 logInForm) 
         {
             MySettings = new ConnectionSettings("localhost", selectedSchema, DB_USER, DB_PASS);
             MyCon = new SQLCon(MySettings);
-            Tables_of_DB = Tables;
+
             LogInForm = logInForm; 
             InitializeComponent();
         } 
@@ -127,6 +126,7 @@ namespace WinFormsApp1
         {
             createDataGridView();
             newData = MyCon.AdvancedQuery(query);
+            if (MyCon.getErrorCode() != 0) { MessageBox.Show(MyCon.getError()); return; }
             newGrid.DataSource = newData;
             this.Size = new Size(panel2.Width + 135, panel2.Height + 60);
         }
@@ -134,7 +134,7 @@ namespace WinFormsApp1
         {
             createDataGridView();
             newData = MyCon.SelectQuery(column, table, where);
-            if(MyCon.getErrorCode() != 0) { MessageBox.Show(MyCon.getError()); }
+            if(MyCon.getErrorCode() != 0) { MessageBox.Show(MyCon.getError()); return;  }
             newGrid.DataSource = newData;
             this.Size = new Size(panel2.Width + 135, panel2.Height + 60);
         }
