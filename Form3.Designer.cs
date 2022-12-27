@@ -33,6 +33,11 @@
             // 
             // uc1
             // 
+            this.uc1.AdditionalDataPlaceHolder = "AdditionalData";
+            this.uc1.AdditionalDataTBox = "";
+            this.uc1.AdditionalDataTBoxVisible = true;
+            this.uc1.AdvisorDataTBox = "";
+            this.uc1.AdvisorDataTBoxVisible = true;
             this.uc1.BackColor = System.Drawing.Color.White;
             this.uc1.DepartmentBoxDataSource = null;
             this.uc1.DepartmentBoxDisplayMember = "";
@@ -40,6 +45,8 @@
             this.uc1.IDBoxDataSource = null;
             this.uc1.IDBoxDisplayMember = "";
             this.uc1.IDTextBox = "";
+            this.uc1.Lb1 = "ID";
+            this.uc1.Lb2 = "Name";
             this.uc1.Location = new System.Drawing.Point(9, 7);
             this.uc1.Name = "uc1";
             this.uc1.NameBoxDataSource = null;
@@ -58,7 +65,7 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.MaximizeBox = false;
             this.Name = "Form3";
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Student";
             this.Load += new System.EventHandler(this.Form3_Load);
             this.ResumeLayout(false);

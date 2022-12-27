@@ -38,14 +38,16 @@ namespace WinFormsApp1
         private ListBox invisibleList = new ListBox();
         private ListBox AdvisorinvisList = new ListBox();
         public string AdditionalDataPlaceHolder { get => AdditionalData.PlaceHolder; set { AdditionalData.PlaceHolder = value; this.Invalidate(); } }
-        public string AdditionalDataTBox { get => AdditionalData.TextBoxText; set { } }
+        public string AdditionalDataTBox { get => AdditionalData.TextBoxText; set { AdditionalData.TextBoxText = value; this.Invalidate(); } }
         public bool AdditionalDataTBoxVisible { get => AdditionalData.Visible; set { AdditionalData2.Visible = value; this.Invalidate(); } }
-        public string AdvisorDataTBox { get => AdditionalData2.TextBoxText; set { } }
+        public string AdvisorDataTBox { get => AdditionalData2.TextBoxText; set { AdditionalData2.TextBoxText = value; this.Invalidate(); } }
         public bool AdvisorDataTBoxVisible { get => AdditionalData2.Visible; set { AdditionalData2.Visible = value; this.Invalidate(); } }
 
         public string Lb1 { get => label1.Text; set { label1.Text = value; this.Invalidate(); } }   
         public string Lb2 { get => label2.Text; set { label2.Text = value; this.Invalidate(); } }
         public string formType; 
+        public TextBox DataIDBoxUserControls { get => DataID.TBoxUserControls;  set { DataID.TBoxUserControls = value; this.Invalidate(); } }
+        public TextBox DepartmentIDBoxUserControls { get => DataDepartment.TBoxUserControls; set { DataDepartment.TBoxUserControls = value; this.Invalidate(); } }
 
         public UserControl1()
         {
@@ -97,8 +99,9 @@ namespace WinFormsApp1
                 DataDepartment.PlaceHolder = "Student ID";
                 AdditionalData.PlaceHolder = "Student Name";
                 AdditionalData2.PlaceHolder = "Department";
-                DataName.ReadOnly = false;
-                AdditionalData2.ReadOnly = false; 
+                DataName.ReadOnly = true;
+                AdditionalData.ReadOnly = true;
+
             }
             if(type != "advisor")
             {
@@ -114,9 +117,9 @@ namespace WinFormsApp1
             if (!firstRun)
             {
                 DataID.TextBoxText = AdvisorinvisList.GetItemText(AdvisorinvisList.SelectedItem); //Advisor ID
-                DataName.TextBoxText = listBox2.GetItemText(listBox2.SelectedItem); //Advisor Name
+                //DataName.TextBoxText = listBox2.GetItemText(listBox2.SelectedItem); //Advisor Name
                 DataDepartment.TextBoxText = invisibleList.GetItemText(invisibleList.SelectedItem); //Student ID
-                AdditionalData.TextBoxText = listBox1.GetItemText(listBox1.SelectedItem); //Student Name
+                //AdditionalData.TextBoxText = listBox1.GetItemText(listBox1.SelectedItem); //Student Name
                 AdditionalData2.TextBoxText = listBox3.GetItemText(listBox3.SelectedItem); //Department
                 return;
             }

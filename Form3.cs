@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using Microsoft.VisualBasic.Devices;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -31,6 +33,67 @@ namespace WinFormsApp1
             uc1.InsertButton.Click += InsertButton;
             uc1.DeleteButton.Click += DeleteButton;
             uc1.firstRun = false;
+            
+        }
+
+        private void idchanged(object sender, EventArgs e)
+        {
+            if(uc1.IDTextBox != string.Empty)
+            {
+                ListBox invisbox = new ListBox();
+                DataTable dataTable;
+                dataTable = con.SelectQuery("i_name as NAME", "instructor", $"instructor_id = {uc1.IDTextBox}");
+                if(con.getErrorCode() != 0)
+                {
+                    this.Text = con.getError();
+                }
+                invisbox.DataSource = dataTable;
+                invisbox.DisplayMember = "NAME";
+                if(invisbox.Items.Count >= 0 )
+                {
+                    Controls.Add(invisbox);
+                    invisbox.Visible = false;
+                    try
+                    {
+                        invisbox.SelectedIndex = 0;
+                    }
+                    catch(Exception ex)
+                    {
+                        
+                    }
+                    uc1.NameTextBox = invisbox.GetItemText(invisbox.SelectedItem);
+                }
+            }
+        }
+        private void idchanged2(object sender, EventArgs e)
+        {
+            if (uc1.DepartmentTextBox != string.Empty)
+            {
+                ListBox invisbox = new ListBox();
+                DataTable dataTable;
+                dataTable = con.SelectQuery("s_name as NAME", "student", $"student_id = {uc1.DepartmentTextBox}");
+                if (con.getErrorCode() != 0)
+                {
+                    this.Text = con.getError();
+                }
+                invisbox.DataSource = dataTable;
+                invisbox.DisplayMember = "NAME";
+                if (invisbox.Items.Count >= 0)
+                {
+                    Controls.Add(invisbox);
+                    invisbox.Visible = false;
+                    try
+                    {
+                        invisbox.SelectedIndex = 0;
+                    }
+                    catch (Exception ex)
+                    {
+                        
+                    }
+                    uc1.AdditionalDataTBox = invisbox.GetItemText(invisbox.SelectedItem);
+                }
+                return; 
+            }
             
         }
 
@@ -71,6 +134,8 @@ namespace WinFormsApp1
                 uc1.AdditionalDataTBoxVisible = true;
                 uc1.setTexts(FormType);
                 uc1.formType = "advisor";
+                uc1.DataIDBoxUserControls.TextChanged += idchanged;
+                uc1.DepartmentIDBoxUserControls.TextChanged += idchanged2;
             }
         }
         private bool checkIDBoxes()
@@ -140,7 +205,7 @@ namespace WinFormsApp1
             }
             if (type == "instructor" && checkIDBoxes())
             {
-                if (con.ModifyQuery($"insert into instructor values ({uc1.IDTextBox}, \"{uc1.NameTextBox}\",\"{uc1.DepartmentTextBox}\",{uc1.AdvisorDataTBox});"))
+                if (con.ModifyQuery($"insert into instructor values ({uc1.IDTextBox}, \"{uc1.NameTextBox}\",\"{uc1.DepartmentTextBox}\",{uc1.AdditionalDataTBox});"))
                 {
                     MessageBox.Show("Item has been succesfully inserted to the table!", "Success!", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     RenewList();
@@ -176,7 +241,7 @@ namespace WinFormsApp1
             }
             if(type == "instructor")
             {
-                if (con.ModifyQuery($"delete from student where instructor_id = {uc1.IDTextBox};"))
+                if (con.ModifyQuery($"delete from instructor where instructor_id = {uc1.IDTextBox};"))
                 {
                     MessageBox.Show("Item has been successfully deleted!", "Success!", MessageBoxButtons.OK, MessageBoxIcon.Information); RenewList();
                     return;
@@ -208,7 +273,6 @@ namespace WinFormsApp1
         {
             Delete(FormType);
         }
-
 
         private void Form3_Load(object sender, EventArgs e)
         {
