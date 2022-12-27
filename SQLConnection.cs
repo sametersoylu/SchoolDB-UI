@@ -84,6 +84,27 @@ namespace WinFormsApp1
             return dataTable;
         }
 
+        public bool ModifyQuery(string query)
+        {
+            bool success = false;
+            cmd.CommandText = query;
+            cmd.Connection = con;
+            try
+            {
+                con.Open();
+                cmd.ExecuteNonQuery();
+                success = true;
+                ErrorStr = "";
+            }
+            catch (Exception ex)
+            {
+                success = false;
+                ErrorStr = ex.Message;
+            }
+            con.Close();
+            return success;
+        }
+
         //IT'S A PROTOTYPE FUNCTION. IT'S NOT FINISHED YET. ONCE IT'S FINISHED, IT'LL BE USED FOR ADVANCED SEARCHING PURPOSES.
         protected DataTable SearchQuery(string Columns,string Table, string SearchText)
         {

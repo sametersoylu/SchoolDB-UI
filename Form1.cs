@@ -10,6 +10,7 @@ namespace WinFormsApp1
         ConnectionSettings MySettings;
         SQLCon MyCon;
         Form2 LogInForm;
+        Form3 DataForm; 
         DataGridView newGrid = new DataGridView();  
         DataTable newData= new DataTable();
 
@@ -28,7 +29,7 @@ namespace WinFormsApp1
         {
             MySettings = new ConnectionSettings("localhost", selectedSchema, DB_USER, DB_PASS);
             MyCon = new SQLCon(MySettings);
-
+            DataForm = new Form3("", "", "", "");
             LogInForm = logInForm; 
             InitializeComponent();
         } 
@@ -87,7 +88,8 @@ namespace WinFormsApp1
 
         private void button2_Click(object sender, EventArgs e)
         {
-            PrintASelectQuery("student_id as StudentID, s_name as StudentName", "student");
+            DataForm = new Form3("student", MySettings.db, MySettings.user, MySettings.pwd);
+            DataForm.Show();
         }
         private void createDataGridView()
         {
@@ -143,13 +145,14 @@ namespace WinFormsApp1
 
         private void button3_Click(object sender, EventArgs e)
         {
-            PrintASelectQuery("instructor_id as InstructorID, i_name as InstructorName", "instructor");
+            DataForm = new Form3("instructor", MySettings.db, MySettings.user, MySettings.pwd);
+            DataForm.Show();
         }
 
         private void button4_Click(object sender, EventArgs e)
         {
-            PrintAQuery("select S.s_name as StudentName, I.i_name as Advisor from student S, " +
-                "instructor I, advisor A where A.instructor_id = I.instructor_id and S.student_id = A.student_id;");
+            DataForm = new Form3("advisor", MySettings.db, MySettings.user, MySettings.pwd);
+            DataForm.Show();
         }
 
         private void button5_Click(object sender, EventArgs e)

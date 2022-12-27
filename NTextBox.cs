@@ -30,6 +30,8 @@ namespace WinFormsApp1
         public HorizontalAlignment TextAlignment { get => align; set {  align = value; textBox1.TextAlign = align; this.Invalidate(); } }
         public string TextBoxText { get => textBox1.Text; set { textBox1.Text = value; this.Invalidate(); } }
         public bool SystemPasswordChar { get => textBox1.UseSystemPasswordChar; set { textBox1.UseSystemPasswordChar = value; this.Invalidate(); } }
+        public string PlaceHolder { get => textBox1.PlaceholderText; set { textBox1.PlaceholderText = value; this.Invalidate(); } }
+        public bool ReadOnly { get => textBox1.ReadOnly; set { textBox1.ReadOnly = value; this.Invalidate(); } }
         protected override void OnPaint(PaintEventArgs e)
         {
             base.OnPaint(e);
