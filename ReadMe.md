@@ -6,3 +6,6 @@ Now it's not only a class, but it has a working GUI. All features are not implem
 I'll create a profile page for students and instructors. Also courses and departments will have their own profile page. That's all for now. 
 
 I have a error checking system in my connection class, but I didn't defined all errors. That's all for now. 
+
+There's an example database included to project without any data included in it. You can import it to your project server by; 
+"mysql -u username -p dbname < filename.db" 
