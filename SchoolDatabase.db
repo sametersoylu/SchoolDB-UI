@@ -1,0 +1,412 @@
+-- MySQL dump 10.13  Distrib 8.0.31, for Win64 (x86_64)
+--
+-- Host: localhost    Database: schooldb
+-- ------------------------------------------------------
+-- Server version	8.0.31
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!50503 SET NAMES utf8mb4 */;
+/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
+/*!40103 SET TIME_ZONE='+00:00' */;
+/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
+/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
+/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
+/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+
+--
+-- Table structure for table `advisor`
+--
+
+DROP TABLE IF EXISTS `advisor`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `advisor` (
+  `instructor_id` decimal(6,0) NOT NULL,
+  `student_id` decimal(6,0) NOT NULL,
+  `department_name` varchar(50) DEFAULT NULL,
+  PRIMARY KEY (`instructor_id`,`student_id`),
+  KEY `student_id` (`student_id`),
+  KEY `department_name` (`department_name`),
+  CONSTRAINT `advisor_ibfk_1` FOREIGN KEY (`student_id`) REFERENCES `student` (`student_id`),
+  CONSTRAINT `advisor_ibfk_2` FOREIGN KEY (`instructor_id`) REFERENCES `instructor` (`instructor_id`),
+  CONSTRAINT `advisor_ibfk_3` FOREIGN KEY (`department_name`) REFERENCES `department` (`dept_name`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `advisor`
+--
+
+LOCK TABLES `advisor` WRITE;
+/*!40000 ALTER TABLE `advisor` DISABLE KEYS */;
+/*!40000 ALTER TABLE `advisor` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `building`
+--
+
+DROP TABLE IF EXISTS `building`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `building` (
+  `building_name` varchar(8) NOT NULL,
+  PRIMARY KEY (`building_name`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `building`
+--
+
+LOCK TABLES `building` WRITE;
+/*!40000 ALTER TABLE `building` DISABLE KEYS */;
+/*!40000 ALTER TABLE `building` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `classroom`
+--
+
+DROP TABLE IF EXISTS `classroom`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `classroom` (
+  `building` varchar(8) NOT NULL,
+  `room_number` decimal(3,0) NOT NULL,
+  `capacity` decimal(3,0) DEFAULT NULL,
+  KEY `building` (`building`,`room_number`),
+  CONSTRAINT `classroom_ibfk_1` FOREIGN KEY (`building`, `room_number`) REFERENCES `room` (`building_name`, `room_number`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `classroom`
+--
+
+LOCK TABLES `classroom` WRITE;
+/*!40000 ALTER TABLE `classroom` DISABLE KEYS */;
+/*!40000 ALTER TABLE `classroom` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `course`
+--
+
+DROP TABLE IF EXISTS `course`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `course` (
+  `course_id` varchar(7) NOT NULL,
+  `title` varchar(20) DEFAULT NULL,
+  `dept_name` varchar(50) DEFAULT NULL,
+  `credits` decimal(2,0) DEFAULT NULL,
+  PRIMARY KEY (`course_id`),
+  KEY `dept_name` (`dept_name`),
+  CONSTRAINT `course_ibfk_1` FOREIGN KEY (`dept_name`) REFERENCES `department` (`dept_name`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `course`
+--
+
+LOCK TABLES `course` WRITE;
+/*!40000 ALTER TABLE `course` DISABLE KEYS */;
+/*!40000 ALTER TABLE `course` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `department`
+--
+
+DROP TABLE IF EXISTS `department`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `department` (
+  `dept_name` varchar(50) NOT NULL,
+  `building` varchar(8) DEFAULT NULL,
+  `budget` decimal(6,0) DEFAULT NULL,
+  PRIMARY KEY (`dept_name`),
+  KEY `building` (`building`),
+  CONSTRAINT `department_ibfk_1` FOREIGN KEY (`building`) REFERENCES `room` (`building_name`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `department`
+--
+
+LOCK TABLES `department` WRITE;
+/*!40000 ALTER TABLE `department` DISABLE KEYS */;
+/*!40000 ALTER TABLE `department` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `instructor`
+--
+
+DROP TABLE IF EXISTS `instructor`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `instructor` (
+  `instructor_id` decimal(6,0) NOT NULL,
+  `i_name` varchar(30) NOT NULL,
+  `dept_name` varchar(50) DEFAULT NULL,
+  `salary` decimal(5,0) DEFAULT NULL,
+  PRIMARY KEY (`instructor_id`),
+  KEY `dept_name` (`dept_name`),
+  CONSTRAINT `instructor_ibfk_1` FOREIGN KEY (`dept_name`) REFERENCES `department` (`dept_name`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `instructor`
+--
+
+LOCK TABLES `instructor` WRITE;
+/*!40000 ALTER TABLE `instructor` DISABLE KEYS */;
+/*!40000 ALTER TABLE `instructor` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `prereq`
+--
+
+DROP TABLE IF EXISTS `prereq`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `prereq` (
+  `course_id` varchar(7) DEFAULT NULL,
+  `prereq_id` varchar(7) DEFAULT NULL,
+  KEY `course_id` (`course_id`),
+  CONSTRAINT `prereq_ibfk_1` FOREIGN KEY (`course_id`) REFERENCES `course` (`course_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `prereq`
+--
+
+LOCK TABLES `prereq` WRITE;
+/*!40000 ALTER TABLE `prereq` DISABLE KEYS */;
+/*!40000 ALTER TABLE `prereq` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `room`
+--
+
+DROP TABLE IF EXISTS `room`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `room` (
+  `building_name` varchar(8) NOT NULL,
+  `room_number` decimal(3,0) NOT NULL,
+  PRIMARY KEY (`building_name`,`room_number`),
+  CONSTRAINT `room_ibfk_1` FOREIGN KEY (`building_name`) REFERENCES `building` (`building_name`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `room`
+--
+
+LOCK TABLES `room` WRITE;
+/*!40000 ALTER TABLE `room` DISABLE KEYS */;
+/*!40000 ALTER TABLE `room` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `section`
+--
+
+DROP TABLE IF EXISTS `section`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `section` (
+  `course_id` varchar(7) DEFAULT NULL,
+  `sec_id` decimal(3,0) NOT NULL,
+  `semester` varchar(10) NOT NULL,
+  `year` decimal(4,0) NOT NULL,
+  `building` varchar(8) DEFAULT NULL,
+  `room_number` decimal(3,0) DEFAULT NULL,
+  `time_slot_id` decimal(6,0) DEFAULT NULL,
+  PRIMARY KEY (`sec_id`),
+  KEY `course_id` (`course_id`),
+  KEY `building` (`building`,`room_number`),
+  KEY `time_slot_id` (`time_slot_id`),
+  CONSTRAINT `section_ibfk_1` FOREIGN KEY (`course_id`) REFERENCES `course` (`course_id`),
+  CONSTRAINT `section_ibfk_2` FOREIGN KEY (`building`, `room_number`) REFERENCES `room` (`building_name`, `room_number`),
+  CONSTRAINT `section_ibfk_3` FOREIGN KEY (`time_slot_id`) REFERENCES `time_slot` (`time_slot_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `section`
+--
+
+LOCK TABLES `section` WRITE;
+/*!40000 ALTER TABLE `section` DISABLE KEYS */;
+/*!40000 ALTER TABLE `section` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `student`
+--
+
+DROP TABLE IF EXISTS `student`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `student` (
+  `student_id` decimal(6,0) NOT NULL,
+  `s_name` varchar(30) NOT NULL,
+  `dept_name` varchar(50) DEFAULT NULL,
+  `total_cred` decimal(2,0) DEFAULT NULL,
+  PRIMARY KEY (`student_id`),
+  KEY `dept_name` (`dept_name`),
+  CONSTRAINT `student_ibfk_1` FOREIGN KEY (`dept_name`) REFERENCES `department` (`dept_name`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `student`
+--
+
+LOCK TABLES `student` WRITE;
+/*!40000 ALTER TABLE `student` DISABLE KEYS */;
+/*!40000 ALTER TABLE `student` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `tables`
+--
+
+DROP TABLE IF EXISTS `tables`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `tables` (
+  `id` int NOT NULL,
+  `table_name` char(40) DEFAULT NULL,
+  `activity` int DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `tables`
+--
+
+LOCK TABLES `tables` WRITE;
+/*!40000 ALTER TABLE `tables` DISABLE KEYS */;
+INSERT INTO `tables` VALUES (0,'Table Names',0),(1,'advisor',2),(2,'building',2),(3,'classroom',2),(4,'course',1),(5,'department',1),(6,'instructor',1),(7,'prereq',2),(8,'room',2),(9,'section',2),(10,'student',1),(11,'takes',2),(12,'teaches',2),(13,'time_slot',2);
+/*!40000 ALTER TABLE `tables` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `takes`
+--
+
+DROP TABLE IF EXISTS `takes`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `takes` (
+  `id` int DEFAULT NULL,
+  `course_id` varchar(7) DEFAULT NULL,
+  `sec_id` decimal(3,0) DEFAULT NULL,
+  `semester` varchar(10) NOT NULL,
+  `year` decimal(4,0) NOT NULL,
+  `grade` char(2) DEFAULT NULL,
+  `s_id` decimal(6,0) NOT NULL,
+  `i_id` decimal(6,0) NOT NULL,
+  UNIQUE KEY `id` (`id`),
+  KEY `course_id` (`course_id`),
+  KEY `sec_id` (`sec_id`),
+  KEY `fk_s_id` (`s_id`),
+  KEY `fk_i_id` (`i_id`),
+  CONSTRAINT `fk_i_id` FOREIGN KEY (`i_id`) REFERENCES `instructor` (`instructor_id`),
+  CONSTRAINT `fk_s_id` FOREIGN KEY (`s_id`) REFERENCES `student` (`student_id`),
+  CONSTRAINT `takes_ibfk_1` FOREIGN KEY (`course_id`) REFERENCES `course` (`course_id`),
+  CONSTRAINT `takes_ibfk_2` FOREIGN KEY (`sec_id`) REFERENCES `section` (`sec_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `takes`
+--
+
+LOCK TABLES `takes` WRITE;
+/*!40000 ALTER TABLE `takes` DISABLE KEYS */;
+/*!40000 ALTER TABLE `takes` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `teaches`
+--
+
+DROP TABLE IF EXISTS `teaches`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `teaches` (
+  `id` int DEFAULT NULL,
+  `course_id` varchar(7) NOT NULL,
+  `instructor_id` decimal(6,0) NOT NULL,
+  `sec_id` decimal(3,0) NOT NULL,
+  `semester` varchar(10) NOT NULL,
+  `year` decimal(4,0) NOT NULL,
+  PRIMARY KEY (`course_id`,`instructor_id`,`sec_id`,`semester`,`year`),
+  UNIQUE KEY `id` (`id`),
+  KEY `instructor_id` (`instructor_id`),
+  KEY `sec_id` (`sec_id`),
+  CONSTRAINT `teaches_ibfk_1` FOREIGN KEY (`instructor_id`) REFERENCES `instructor` (`instructor_id`),
+  CONSTRAINT `teaches_ibfk_2` FOREIGN KEY (`sec_id`) REFERENCES `section` (`sec_id`),
+  CONSTRAINT `teaches_ibfk_3` FOREIGN KEY (`course_id`) REFERENCES `course` (`course_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `teaches`
+--
+
+LOCK TABLES `teaches` WRITE;
+/*!40000 ALTER TABLE `teaches` DISABLE KEYS */;
+/*!40000 ALTER TABLE `teaches` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `time_slot`
+--
+
+DROP TABLE IF EXISTS `time_slot`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `time_slot` (
+  `time_slot_id` decimal(6,0) NOT NULL,
+  `day` decimal(1,0) NOT NULL,
+  `start_time` char(5) NOT NULL,
+  `end_time` char(5) NOT NULL,
+  PRIMARY KEY (`time_slot_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `time_slot`
+--
+
+LOCK TABLES `time_slot` WRITE;
+/*!40000 ALTER TABLE `time_slot` DISABLE KEYS */;
+/*!40000 ALTER TABLE `time_slot` ENABLE KEYS */;
+UNLOCK TABLES;
+/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
+
+/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
+/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
+/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
+
+-- Dump completed on 2023-01-22 21:58:00
