@@ -25,12 +25,12 @@ namespace WinFormsApp1
         private bool DataGridDock = false;
         private bool searchPanelState = false; 
 
-        public Form1(string selectedSchema, string DB_USER,string DB_PASS, Form2 logInForm) 
+        public Form1(string selectedSchema, string DB_HOST, string DB_USER,string DB_PASS, Form2 logInForm) 
         {
             MySettings = new ConnectionSettings("localhost", selectedSchema, DB_USER, DB_PASS);
             MyCon = new SQLCon(MySettings);
             DataForm = new Form3("", "", "", "");
-            LogInForm = logInForm; 
+            LogInForm = logInForm;
             InitializeComponent();
         } 
 
@@ -114,6 +114,8 @@ namespace WinFormsApp1
                 this.AutoSize = true;
                 panel2.AutoSize = true;
                 newGrid.Location = new Point(0, 0);
+                newGrid.BackgroundColor = Color.White;
+                newGrid.Dock = DockStyle.Fill; 
                 panel2.Controls.Add(newGrid);
                 DataGridState = true;
                 
@@ -234,5 +236,7 @@ namespace WinFormsApp1
             textBox1.Clear();
             this.Text = MyCon.lastusedTable; 
         }
+
+       
     } 
 }
